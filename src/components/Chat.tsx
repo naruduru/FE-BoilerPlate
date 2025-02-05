@@ -56,7 +56,7 @@ function Chat() {
 
     return (
         <div style={{ width: '400px', margin: '0 auto' }}>
-            <h1>실시간 채팅</h1>
+            <h1>실시간 채팅!@#</h1>
 
             <div>
                 <label>닉네임: </label>
