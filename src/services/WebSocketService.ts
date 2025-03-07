@@ -7,7 +7,7 @@ class WebSocketService {
 
     private constructor() {
         this.client = new Client({
-            webSocketFactory: () => new SockJS('http://10.11.64.94:8080/ws/chat'),
+            webSocketFactory: () => new SockJS('http://localhost:8080/ws/chat'),
             reconnectDelay: 5000,
             heartbeatIncoming: 4000,
             heartbeatOutgoing: 4000,

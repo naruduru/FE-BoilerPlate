@@ -45,7 +45,7 @@ const SignupPage = () => {
         }
 
         try {
-            const response = await fetch('http://10.11.64.94:8080/api/v1/auth/signup/normal', {
+            const response = await fetch('http://localhost:8080/api/v1/auth/signup/normal', {
                 method: 'POST',
                 body: formData,
             });

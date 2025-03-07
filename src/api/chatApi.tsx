@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://10.11.64.94:8080/api/chat';
+const BASE_URL = 'http://localhost:8080/api/chat';
 
 export const getMessages = async (chatRoomId: string, limit: number) => {
     const response = await axios.get(`${BASE_URL}/${chatRoomId}/messages`, {

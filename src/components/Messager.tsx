@@ -14,7 +14,7 @@ const Messenger: React.FC = () => {
         requestPermission();
 
         // WebSocket 예시
-        const socket = new SockJS('http://10.11.64.94:8080/ws');
+        const socket = new SockJS('http://localhost:8080/ws');
 
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data); // 서버에서 데이터 수신
