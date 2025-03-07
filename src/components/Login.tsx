@@ -24,7 +24,7 @@ const Login: React.FC = () => {
         setError('');
 
         try {
-            const response = await fetch('http://localhost:8080/api/v1/auth/login/normal', {
+            const response = await fetch('http://10.11.64.94:8080/api/v1/auth/login/normal', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -40,6 +40,8 @@ const Login: React.FC = () => {
 
             // 성공 시 토큰 저장 (예: 로컬 스토리지)
             localStorage.setItem('token', data.data.accessToken);
+            localStorage.setItem('username', data.data.memberResponse.email);
+
             setUsername(email)
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-expect-error

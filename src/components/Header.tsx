@@ -2,32 +2,38 @@ import React from "react";
 import {Link, useNavigate} from "react-router-dom";
 import { useEffect } from "react";
 import { RootState } from '../store';
-import { useDispatch, useSelector } from 'react-redux';
-import { setLoginStatus } from '../store'; // 방금 만든 액션
+import { useSelector } from 'react-redux';
+import { setLoginStatus } from '../store';
+import { useUser } from "../contexts/UserContext.tsx"; // 방금 만든 액션
+import { useAppDispatch} from "../hooks/hooks.ts";
 
 const Header: React.FC = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const isLoggedIn = useSelector((state: RootState) => state.isLoggedIn);
+    const { username, setUsername } = useUser();
 
     const handleLoginClick = () => {
         navigate("/login")
     };
 
     const handleLogout = () => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
         dispatch(setLoginStatus(false)); // 로그아웃 시 로그인 상태를 false로 설정
+        localStorage.removeItem("token")
+        localStorage.removeItem("username")
         navigate('/login'); // 로그인 페이지로 리다이렉트
     };
 
     // 새로고침 시 토큰 복원
     useEffect(() => {
         const token = localStorage.getItem("token");
+        const username = localStorage.getItem("username");
 
-        if (token === null || token === undefined) {
+        if (token === null || token === undefined || username === null || username === undefined) {
             navigate("/login");
         } else {
+            dispatch(setLoginStatus(true));
+            setUsername(username);
             navigate("/");
         }
     }, []);
@@ -45,10 +51,10 @@ const Header: React.FC = () => {
                 <input type="text" placeholder={"검색"} className={"placeholder-black focus:outline-none focus:ring-2 focus:ring-blue-500 text-black px-4 py-2 bg-white border-custom-gold border-1"}/>
             </div>
             <div className="ml-auto text-right w-1/4">
+                {username}
                 <button
                     onClick={handleLoginClick}
                     className="px-4 py-2 bg-blue-500 rounded hover:bg-blue-700 transition text-sm">
-                    <h1>{isLoggedIn ? '로그인됨' : '로그인 안됨'}</h1>
                     {isLoggedIn && <button onClick={handleLogout}>로그아웃</button>}
                 </button>
             </div>

@@ -2,6 +2,8 @@ import React, {useEffect, useRef, useState} from "react";
 import WebSocketService from "../services/WebSocketService.ts";
 import {IMessage} from "@stomp/stompjs";
 import { useUser } from "../contexts/UserContext";
+import { getMessages } from '../api/chatApi';
+
 
 interface ChatMessage {
     sender: string;
@@ -14,8 +16,16 @@ const MainContent: React.FC = () => {
     const [inputMessage, setInputMessage] = useState('');
     const { username } = useUser();
     const subscriptionRef = useRef<any>(null);
+    const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
+
+        const fetchMessages = async () => {
+            const data = await getMessages("1234", 1000);
+            setMessages(data);
+        };
+
+        fetchMessages();
 
         // 브라우저 알림 권한 요청
         const requestPermission = async () => {
@@ -36,7 +46,7 @@ const MainContent: React.FC = () => {
                 (message: IMessage) => {
                     const body: ChatMessage = JSON.parse(message.body);
                     setMessages((prev) => [...prev, body]);
-                    showNotification(`새 메시지:`, `새 메시지:`);
+                    showNotification("1234", message.body);
                 }
             );
         });
@@ -49,6 +59,16 @@ const MainContent: React.FC = () => {
             webSocketService.deactivate();
         };
     }, []);
+
+    // 메시지가 추가될 때마다 스크롤
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
+
+    // 메시지 하단으로 스크롤
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
 
     const showNotification = (title: string, body: string) => {
         if (Notification.permission === "granted") {
@@ -73,7 +93,8 @@ const MainContent: React.FC = () => {
         webSocketService.publish('/app/chat.sendMessage', {
             sender: username,
             content: inputMessage,
-            timestamp: new Date().toISOString(),
+            sendAt: new Date().toISOString().replace('Z', ''),
+            roomId: "1234"
         });
 
         console.log('inputMessage:::' + inputMessage)
@@ -137,6 +158,7 @@ const MainContent: React.FC = () => {
                                 </div>
                     )
                                 ))}
+                <div ref={messagesEndRef} /> {/* 스크롤 이동용 요소 */}
                             </div>
                         <div className="flex p-2 items-end justify-center">
             <div className="flex w-full space-x-2 items-end bg-pink-200">
