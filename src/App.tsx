@@ -1,12 +1,16 @@
-import './App.css'
-import Chat from './components/Chat';
+import React from "react";
+import AppRouter from "./router/router.tsx";
+import { BrowserRouter as Router } from "react-router-dom";
+import { UserProvider } from "./contexts/UserContext.tsx";
 
-function App() {
-  return (
-    <div className='App'>
-      <Chat />
-    </div>
-  );
-}
+const App: React.FC = () => {
+    return (
+        <UserProvider>
+            <Router>
+                <AppRouter />
+            </Router>
+        </UserProvider>
+    );
+};
 
 export default App;

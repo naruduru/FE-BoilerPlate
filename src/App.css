@@ -40,3 +40,10 @@
 .read-the-docs {
   color: #888;
 }
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0;
+}
