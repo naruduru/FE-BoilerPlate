@@ -32,7 +32,7 @@ jobs:
     steps:
       - name: Deploy to server with password
         env:
-          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SERVER_IP: ${{ secrets.SERVER_DDNS }}
           SERVER_USER: ${{ secrets.SERVER_USER }}
           SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
