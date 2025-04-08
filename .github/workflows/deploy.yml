@@ -29,6 +29,9 @@ jobs:
 
         # Upload build files to the server
         echo "Uploading files to server..."
+        echo "$SERVER_PASSWORD"
+        echo $SERVER_USER
+        echo @$SERVER_DDNS
         sshpass -p "$SERVER_PASSWORD" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_DDNS << EOF
           mkdir -p /var/www/react-app
         EOF
