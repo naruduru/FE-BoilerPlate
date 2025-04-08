@@ -29,12 +29,12 @@ jobs:
 
         # Upload build files to the server
         echo "Uploading files to server..."
-        sshpass -p $SERVER_PASSWORD ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_DDNS << EOF
+        sshpass -p "$SERVER_PASSWORD" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_DDNS << EOF
           sudo mkdir -p /var/www/react-app
           sudo chown -R $SERVER_USER:$SERVER_USER /var/www/react-app
           sudo chmod -R 775 /var/www/react-app
         EOF
-        sshpass -p $SERVER_PASSWORD scp -o StrictHostKeyChecking=no -r ./dist/* $SERVER_USER@$SERVER_DDNS:/var/www/react-app/
+        sshpass -p "$SERVER_PASSWORD" scp -o StrictHostKeyChecking=no -r ./dist/* $SERVER_USER@$SERVER_DDNS:/var/www/react-app/
 
         # Restart server or application if needed
         echo "Restarting server..."
